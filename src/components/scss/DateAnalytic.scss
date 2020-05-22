@@ -4,6 +4,29 @@
   align-items: center;
   overflow: hidden;
 
+  .goto-page-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+
+    div {
+      margin-top: 30px;
+      width: 100%;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        margin-left: 10px;
+        cursor: pointer;
+      }
+    }
+  }
+
   h2 {
     position: absolute;
     top: 30px;
@@ -83,13 +106,13 @@
 }
 
 #cholesterol {
-  background-color: #97f2d2;
+  background-color: #dc143c;
 }
 
 #saturated-fat {
-  background-color: #c4ece3;
+  background-color: #CC1000;
 }
 
 #trans-fat {
-  background-color: #bcd9cb;
+  background-color: #800000;
 }

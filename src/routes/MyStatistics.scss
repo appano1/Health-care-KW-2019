@@ -1,0 +1,39 @@
+#button-wrapper {
+  display: flex;
+  position: absolute;
+  height: 40px;
+  top: 5px;
+  right: 65px;
+  border: 1px solid #464A5E;
+  border-radius: 5px;
+
+  .left {
+    border-radius: 3px 0 0 3px;
+  }
+
+  .right {
+    border-radius:  0 3px 3px 0;
+  }
+
+  .select-button {
+    width: 50px;
+    border: none;
+    font-size: 0.8rem;
+  }
+
+  .select {
+    color: white;
+    background-color: #464A5E;
+  }
+}
+
+#statistics-container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+
+  section {
+    height: calc(100% + 50px);
+    overflow-y: scroll;
+  }
+}

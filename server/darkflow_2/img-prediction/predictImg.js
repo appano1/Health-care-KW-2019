@@ -29,7 +29,7 @@ function predictImg(userNumber, date, imgFileName) {
     });
 
     shell.on("close", () => {
-      console.log("python code ended...");
+      console.log("python yolo image classification code ended...");
       resolve(result);
     });
   });

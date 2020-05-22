@@ -46,4 +46,25 @@ router.post("/name", (req, res) => {
   });
 });
 
+router.post("/submit", (req, res) => {
+  const eaten = req.body.eaten;
+  const userNumber = req.body.userNumber;
+  console.log(eaten, userNumber);
+
+  let foodNumbers = "";
+  eaten.forEach((number, index) => {
+    const n_str = number.toString();
+    if (index > 0) {
+      foodNumbers += "," + n_str
+    } else {
+      foodNumbers += n_str;
+    } 
+  });
+  console.log(`register_eaten_foods ${userNumber},'${foodNumbers}'`);
+  db.query(`register_eaten_foods ${userNumber},'${foodNumbers}'`, (err, rows) => {
+    if (err) {
+      console.error('음식을 등록하는 도중 에러가 발생했습니다. ' + err);
+    }
+  });
+});
 module.exports = router;

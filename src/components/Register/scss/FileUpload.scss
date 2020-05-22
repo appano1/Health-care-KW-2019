@@ -2,6 +2,8 @@
   display: flex;
   align-items: center;
   height: 40vh;
+  width: 60vw;
+  position: relative;
 
   .welcome {
     width: 100vw;
@@ -25,4 +27,19 @@
     max-height: 40vh;
     object-fit: cover;
   }
+
+  .submit-button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 60vw;
+    position: absolute;
+    width: 40vw;
+  }
+}
+
+#form-wrapper {
+  display: flex;
+  height: 40vh;
+  overflow: hidden;
 }

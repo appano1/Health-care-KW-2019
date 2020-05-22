@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./scss/Header.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faUserCircle} from "@fortawesome/free-solid-svg-icons";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
   const clearStorage = () => {

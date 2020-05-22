@@ -33,6 +33,13 @@ https://visualstudio.microsoft.com/ko/vs/older-downloads/
 pip install .
 ```
 
+3. ckpt 파일 설치 
+https://drive.google.com/open?id=1qDy5dKi7WQ_IgyWOw7XQXM6wuMvIGDd3
+
+해당 링크에서 ckpt 파일을 다운로드 받고 `server/darkflow-2/` 디렉토리에 추가해주세요.
+
+학습 결과를 가리키는 파일이 100MB를 초과하여 따로 업로드했습니다.
+
 #
 #### 아나콘다 이용 시
 아나콘다 설치 경로 내부의 파이썬 경로를 확인해야합니다.
@@ -41,8 +48,8 @@ pip install .
 
 일반적인 아나콘다 설치 경로는 다음과 같습니다.
 
-* OSX `/opt/anaconda3/env/[DIRECTORY]/bin/python`
-* Window `C:/Users/[YOURNAME]/anaconda3/envs/[DIRECTORY]/python`
+* OSX `/opt/anaconda3/env/[가상환경 이름]/bin/python`
+* Window `C:/Users/[YOURNAME]/anaconda3/envs/[가상환경 이름]/python` 또는 `C:/ProgramData/Anaconda3`
 
 
 #### VSCode 이용 시
@@ -56,13 +63,14 @@ cd ~
 code .bashrc
 ```
 
-아나콘다 설치 경로 내부의 conda.sh를 실행 시킬 수 있도록 .bashrc에 아래 코드를 추가해주세요. 
-해당 터미널 환경에서 아나콘다가 활성화할 수 있도록 하는 bash 파일입니다.
-```bash
-source ~/anaconda3/etc/profile.d/conda.sh
-```
-아나콘다 설치 경로에 따라 해당 파일이 없을 수 있습니다.
+아나콘다 설치 경로 내부의 conda.sh를 실행 시킬 수 있도록 합니다. conda.sh는 터미널 환경에서 아나콘다가 활성화할 수 있도록 하는 bash 파일입니다.
 
+일반적인 경로는 `[아나콘다 경로]/etc/profile.d/conda.sh`입니다.
+
+.bashrc에 해당 코드를 입력하고 저장해주세요
+```bash
+source [아나콘다 경로]/etc/profile.d/conda.sh
+```
 꼭 아나콘다 설치 경로 내부에 있는 `/etc/profile.d/conda.sh`로 지정해주세요.
 
 #

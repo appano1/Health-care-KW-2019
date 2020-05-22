@@ -8,6 +8,7 @@ const userDataRouter = require("./routes/userData");
 const ingredientRouter = require('./routes/search')
 const registerRouter = require('./routes/register');
 const fileRouter = require("./routes/file");
+const evaluateRouter = require("./routes/food_evaluate");
 
 const app = express();
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use("/userData", userDataRouter);
 app.use("/search_ingredient",ingredientRouter);
 app.use("/register",registerRouter);
 app.use("/file", fileRouter);
+app.use("/evaluate",evaluateRouter);
 
 app.use("/", router);
 

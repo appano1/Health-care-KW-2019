@@ -1,62 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./scss/FoodAnalysis.scss";
 import { CircleLoader } from "react-spinners";
 import AnalysisResultList from "./AnalysisResultList";
+import {State} from "./FileUpload";
 
 type PropsType = {
-  preview: JSX.Element | null,
   result: {
     label: string
-  }[] | null
+  }[],
+  state: State
 };
 
-enum State {
-  WAITING,
-  LOADING,
-  SUCCESS,
-  NOT_FOOD
-}
-
-function FoodAnalysis({ preview, result }: PropsType) {
-  const [state, setState] = useState<State>(State.WAITING);
-
-  const submitForm = () => {
-    setState(State.LOADING);
-  };
-
-  useEffect(() => {
-    if (result === null) {
-      setState(State.WAITING);
-    } else if (result.length === 0) {
-      setState(State.NOT_FOOD);
-    } else {
-      setState(State.SUCCESS);
-    }
-  }, [result]);
-
-  useEffect(() => {
-    setState(State.WAITING);
-  }, [preview]);
-
-  return preview === null ? null : (
-    <div className="submit-button-wrapper">
-      <label>
-        {state === State.WAITING ? (
-          <i className="fas fa-arrow-right fa-2x" />
-        ) : null}
-        <input className="input-file" type="submit" onClick={submitForm} />
-      </label>
+function FoodAnalysis({ result, state }: PropsType) {
+  return (
+    <div id="prediction-list">
       {state === State.LOADING
         ? (
           <div id="loader-box">
             <CircleLoader />
           </div>
         )
-        : state === State.SUCCESS
-          ? <AnalysisResultList result={result!} />
-          : state === State.NOT_FOOD
-            ? <p>음식이 아닙니다.</p>
-            : null
+        : state === State.SUCCESS ? <AnalysisResultList result={result} /> : null
       }
     </div>
   );

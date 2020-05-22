@@ -5,14 +5,22 @@ import { PacmanLoader } from "react-spinners";
 import { foodListSort } from "./foodListSort";
 import getUserNumber from "../getUserNumber";
 
-function getFoodImage(foodList: Array<number>) {
+function getFoodImage(
+  foodList: Array<number>,
+  setUpdateState: React.Dispatch<React.SetStateAction<Boolean>>
+) {
   let imgSrcList: string[] = [];
   for (let i = 0; i < 30; ++i) {
     const imgSrc = `http://localhost:4002/images/${foodList[i]}.png`;
     imgSrcList.push(imgSrc);
   }
   return imgSrcList.map((src: string, index: number) => (
-    <Food key={src} imageSrc={src} foodNumber={foodList[index]} />
+    <Food
+      key={src}
+      imageSrc={src}
+      foodNumber={foodList[index]}
+      setUpdateState={setUpdateState}
+    />
   ));
 }
 
@@ -55,6 +63,7 @@ type DataType = {
 
 function Recommendation() {
   const [foodList, setFoodList] = useState<Array<number>>();
+  const [isUpdate, setUpdateState] = useState<Boolean>(true);
 
   const predictData = useCallback(async (userNumber: number) => {
     const [preference, loss] = await Promise.all([
@@ -75,21 +84,24 @@ function Recommendation() {
   }, []);
 
   useEffect(() => {
+    if (!isUpdate) return;
+
     const userNumber = getUserNumber();
     if (userNumber !== -1) {
       predictData(userNumber)
-        .catch(err => console.error(err));
+        .then(() => setUpdateState(false))
+        .catch((err) => console.error(err));
     }
-  }, [predictData]);
+  }, [predictData, isUpdate]);
 
-  return foodList === undefined ? (
+  return isUpdate ? (
     <div className="loader">
       <PacmanLoader size={20} color={"#646464"} />
     </div>
   ) : (
     <article className="recommendation">
       <h1>이런 음식 어때요? </h1>
-      {getFoodImage(foodList)}
+      {getFoodImage(foodList!, setUpdateState)}
     </article>
   );
 }

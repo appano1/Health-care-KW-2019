@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import getUserNumber from "../getUserNumber";
 import "../scss/DateAnalytic.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
 
 // 사용자의 영양 권장량을 가져오는 함수
 function getNutritionRecommended(): Promise<number[]> {
-  const recommendedNutrition: string | null = sessionStorage.getItem("recommended_nutrition");
+  const recommendedNutrition: string | null = sessionStorage.getItem(
+    "recommended_nutrition"
+  );
   const userNumber = getUserNumber();
 
   return recommendedNutrition === null
@@ -43,7 +48,7 @@ function getNutritionIntake(): Promise<number[]> {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-      }
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -57,6 +62,8 @@ function getNutritionIntake(): Promise<number[]> {
 function DateAnalytic() {
   const [intake, setIntake] = useState<number[]>([]);
   const [ratio, setRatio] = useState<number[]>([]);
+  const [isZero, setZeroState] = useState<boolean>(true);
+  const history = useHistory();
 
   const nutritionList = [
     "calorie",
@@ -71,10 +78,16 @@ function DateAnalytic() {
   ];
 
   const fetchData = useCallback(async () => {
-    const [recommendedNutrition, nutritionIntake] = await Promise.all<number[], number[]>([
-      getNutritionRecommended(),
-      getNutritionIntake(),
-    ]);
+    const [recommendedNutrition, nutritionIntake] = await Promise.all<
+      number[],
+      number[]
+    >([getNutritionRecommended(), getNutritionIntake()]);
+    let result = 0;
+    nutritionIntake.forEach((v) => (result += v));
+
+    if (result === 0) setZeroState(true);
+    else setZeroState(false);
+
     const _ratio = recommendedNutrition.map((arg, index) =>
       arg !== 0 ? nutritionIntake[index] / arg : 0
     );
@@ -83,8 +96,7 @@ function DateAnalytic() {
   }, []);
 
   useEffect(() => {
-    fetchData()
-      .catch(err => console.error(err));
+    fetchData().catch((err) => console.error(err));
   }, [fetchData]);
 
   useEffect(() => {
@@ -106,59 +118,77 @@ function DateAnalytic() {
   }, [nutritionList, ratio]);
 
   return (
-    <article className="analytic">
-      <ul className="nutrition">
-        <li>열량</li>
-        <li>탄수화물</li>
-        <li>단백질</li>
-        <li>지방</li>
-        <li>당류</li>
-        <li>나트륨</li>
-        <li>콜레스테롤</li>
-        <li>포화지방산</li>
-        <li>트랜스지방산</li>
-      </ul>
+    <>
+      {isZero && (
+        <article className="analytic">
+          <div className="goto-page-wrapper">
+            <p>아직 음식을 등록하지 않았어요.</p>
+            <div>
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                size="2x"
+                onClick={() => history.push("register")}
+              />
+            </div>
+          </div>
+        </article>
+      )}
+      {!isZero && (
+        <article className="analytic">
+          <ul className="nutrition">
+            <li>열량</li>
+            <li>탄수화물</li>
+            <li>단백질</li>
+            <li>지방</li>
+            <li>당류</li>
+            <li>나트륨</li>
+            <li>콜레스테롤</li>
+            <li>포화지방산</li>
+            <li>트랜스지방산</li>
+          </ul>
 
-      <ul className="nutrition-graph">
-        <li>
-          <div id="calorie" />
-          {intake[0]}kcal
-        </li>
-        <li>
-          <div id="carbohydrate" />
-          {intake[1]}g
-        </li>
-        <li>
-          <div id="protein" />
-          {intake[2]}g
-        </li>
-        <li>
-          <div id="fat" />
-          {intake[3]}g
-        </li>
-        <li>
-          <div id="sugar" />
-          {intake[4]}g
-        </li>
-        <li>
-          <div id="salt" />
-          {intake[5]}mg
-        </li>
-        <li>
-          <div id="cholesterol" />
-          {intake[6]}mg
-        </li>
-        <li>
-          <div id="saturated-fat" />
-          {intake[7]}g
-        </li>
-        <li>
-          <div id="trans-fat" />
-          {intake[8]}g
-        </li>
-        <div className="recommended-amount" />
-      </ul>
-    </article>
+          <ul className="nutrition-graph">
+            <li>
+              <div id="calorie" />
+              {intake[0]}kcal
+            </li>
+            <li>
+              <div id="carbohydrate" />
+              {intake[1]}g
+            </li>
+            <li>
+              <div id="protein" />
+              {intake[2]}g
+            </li>
+            <li>
+              <div id="fat" />
+              {intake[3]}g
+            </li>
+            <li>
+              <div id="sugar" />
+              {intake[4]}g
+            </li>
+            <li>
+              <div id="salt" />
+              {intake[5]}mg
+            </li>
+            <li>
+              <div id="cholesterol" />
+              {intake[6]}mg
+            </li>
+            <li>
+              <div id="saturated-fat" />
+              {intake[7]}g
+            </li>
+            <li>
+              <div id="trans-fat" />
+              {intake[8]}g
+            </li>
+            <div className="recommended-amount" />
+          </ul>
+        </article>
+      )}
+    </>
   );
 }
 

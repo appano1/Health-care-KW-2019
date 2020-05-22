@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTired, faGrinHearts } from "@fortawesome/free-solid-svg-icons";
 import "../scss/Food.scss";
@@ -8,6 +8,7 @@ import getFoodName from "../getFoodName";
 type FoodProps = {
   imageSrc: string;
   foodNumber: number;
+  setUpdateState: React.Dispatch<React.SetStateAction<Boolean>>
 };
 
 const init = {
@@ -18,8 +19,7 @@ const init = {
   }
 };
 
-function Food({ imageSrc, foodNumber }: FoodProps) {
-  // const food_no = imageSrc.split(".")[0].split("/")[2];
+function Food({ imageSrc, foodNumber, setUpdateState }: FoodProps) {
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [foodName, setFoodName] = useState<string>();
   const info = {
@@ -27,7 +27,8 @@ function Food({ imageSrc, foodNumber }: FoodProps) {
     foodNumber,
   };
 
-  const like = () => {
+  const like = useCallback(() => {
+    setUpdateState(true);
     fetch("/food/like", {
       ...init,
       body: JSON.stringify(info),
@@ -36,9 +37,10 @@ function Food({ imageSrc, foodNumber }: FoodProps) {
       .then((data) => {
         console.log("선호도 올림.");
       });
-  };
+  }, [info, setUpdateState]);
 
-  const dislike = () => {
+  const dislike = useCallback(() => {
+    setUpdateState(true);
     //DB 선호도 내리기
     fetch("/food/dislike", {
       ...init,
@@ -48,7 +50,7 @@ function Food({ imageSrc, foodNumber }: FoodProps) {
       .then((data) => {
         console.log("선호도 내림 ");
       });
-  };
+  }, [info, setUpdateState]);
 
   useEffect(() => {
     getFoodName(foodNumber)

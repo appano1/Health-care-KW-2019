@@ -25,7 +25,7 @@ function recommend(preferenceList, userNumber) {
     });
 
     shell.on("close", () => {
-      console.log("python code ended...");
+      console.log("python recommend code ended...");
       resolve(result);
     });
 

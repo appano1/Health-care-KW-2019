@@ -8,7 +8,7 @@ export default function Autocom(props) {
   const [inputs, setInputs] = useState({
     food: "",
   });
-
+  const { foodInfo, modifyFoodInfo, setFoodInsertState } = props;
   const source = sessionStorage.getItem("foodInfo");
   let foodList;
 
@@ -21,21 +21,15 @@ export default function Autocom(props) {
     props.history.push("/");
   }
 
-  const { food } = inputs;
-
-  const onClick = () => {
-    console.log(food);
-  };
-
   const inputProps = {
     placeholder: "Search...",
     style: {
-      width: '100%',
-      height: '100%',
+      width: "100%",
+      height: "100%",
       borderRadius: 10,
-      borderColor: 'black',
+      borderColor: "black",
       fontSize: 13,
-      color: '#262626',
+      color: "#262626",
       paddingLeft: 45,
     },
   };
@@ -53,7 +47,7 @@ export default function Autocom(props) {
           height: "100%",
         }}
         menuStyle={{
-          borderRadius: '3px',
+          borderRadius: "3px",
           boxShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
           background: "rgba(255, 255, 255, 0.9)",
           boxSizing: "border-box",
@@ -69,7 +63,9 @@ export default function Autocom(props) {
         getItemValue={(item) => item.food_name}
         renderItem={(item, highlighted) => (
           <div
-            className={highlighted ? "highlighted dropdown-item" : "dropdown-item"}
+            className={
+              highlighted ? "highlighted dropdown-item" : "dropdown-item"
+            }
             key={item.food_no}
           >
             {item.food_name}
@@ -77,7 +73,18 @@ export default function Autocom(props) {
         )}
         value={inputs.food}
         onChange={(e) => setInputs({ food: e.target.value })}
-        onSelect={(food) => setInputs({ food })}
+        onSelect={(food) => {
+          const { food_no, food_name } = foodList.find(
+            ({ food_name }) => food_name === food
+          );
+          foodInfo.push({
+            foodNumber: food_no,
+            foodName: food_name,
+          });
+          modifyFoodInfo(foodInfo);
+          setFoodInsertState(true);
+          setInputs({ food: "" });
+        }}
       />
     </div>
   );

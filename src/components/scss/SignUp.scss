@@ -1,13 +1,13 @@
-@font-face{
-  font-family: Ssangmun;
-  src:url('../fonts/Typo_SsangmunDongB.ttf') format('truetype');
+// @font-face{
+  // font-family: Ssangmun;
+//   src:url('../fonts/Typo_SsangmunDongB.ttf') format('truetype');
   
-}
-@font-face{
-  font-family: maple;
-  src:url('../fonts/Maplestory\ Light.ttf') format('truetype');
+// }
+// @font-face{
+//   font-family: maple;
+//   src:url('../fonts/Maplestory\ Light.ttf') format('truetype');
   
-}
+// }
 
 .signup-page{
     height: 100%;
@@ -31,15 +31,17 @@
         margin-bottom: 30px;
       }
       input {
-        font-family: maple;
+        // font-family: maple;
         width: 270px;
         height: 30px;
         margin-bottom: 15px;
       }
       .genderbox{
-        font-family: maple;
+        // font-family: maple;
         width: 270px;
         height: 40px;
+        display: flex;
+        justify-content: center;
         #gender{
           label{
             margin-right: 20px;
@@ -51,7 +53,7 @@
         display: inline-block;
     }
     .MuiRadio-root{
-      font-family: maple;
+      // font-family: maple;
       color: #95c7ff;
     }
     .MuiFormControlLabel-root {
@@ -65,7 +67,7 @@
   }
 
       button {
-        font-family: maple;
+        // font-family: maple;
         display: flex;
         justify-content: center;
         margin-top: 15px;
